@@ -6,8 +6,59 @@
 
 int count(int mm);
 
+
+
+char dot_placement_map[50][50] = {
+{"+------------++------------+"},
+{"|............||............|"},
+{"|.+--+.+---+.||.+---+.+--+.|"},
+{"|*|  |.|   |.||.|   |.|  |*|"},
+{"|.+--+.+---+.++.+---+.+--+.|"},
+{"|..........................|"},
+{"|.+--+.++.+------+.++.+--+.|"},
+{"|.+--+.||.+--++--+.||.+--+.|"},
+{"|......||....||....||......|"},
+{"+----+.|+--+ || +--+|.+----+"},
+{"     |.|+--+ ++ +--+|.|     "},
+{"     |.||          ||.|     "},
+{"     |.|| +--__--+ ||.|     "},
+{"-----+.++ |      | ++.+-----"},
+{"      .   |      |   .      "},
+{"-----+.++ |      | ++.+-----"},
+{"     |.|| +------+ ||.|     "},
+{"     |.||          ||.|     "},
+{"     |.|| +------+ ||.|     "},
+{"+----+.++ +--++--+ ++.+----+"},
+{"|............||............|"},
+{"|.+--+.+---+.||.+---+.+--+.|"},
+{"|.+-+|.+---+.++.+---+.|+-+.|"},
+{"|*..||.......  .......||..*|"},
+{"+-+.||.++.+------+.++.||.+-+"},
+{"+-+.++.||.+--++--+.||.++.+-+"},
+{"|......||....||....||......|"},
+{"|.+----++--+.||.+--++----+.|"},
+{"|.+--------+.++.+--------+.|"},
+{"|..........................|"},
+{"+--------------------------+"},
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 int main(void){	
 	initscr();			/* Start curses mode 		  */
+	curs_set(0); // invisiable cursor
 	//printw("Hello World !!!");	/* Print Hello World		  */
 	refresh(); //forces update
 
@@ -18,34 +69,75 @@ int main(void){
 	refresh();			/* Print it on to the real screen */
 
 	int x,y;
-	x = 0;
-	y = 0;
+	x = 1;
+	y = 2;
+	
+	int len = sizeof(dot_placement_map)/sizeof(dot_placement_map[0]);
+
+
+	//prints screen
+	for(int i = 0 ; i < len; i++)
+	{
+		mvaddch(i, 0, ' ');
+		printw(dot_placement_map[i]);
+	}
+
+
+
 	char move;
 	while(1)
 	{
 		move = getch();
-		if(move == 's')
-		{
-			x++;
-		}
+
 		if(move == 'w')
 		{
+			dot_placement_map[x][y]  = ' ';
 			x--;
+			dot_placement_map[x][y]  = 'C';
+			
+			
 		}
-		if(move == 'a')
+
+		else if(move == 's')
 		{
+			dot_placement_map[x][y]  = ' ';
+			x++;
+			dot_placement_map[x][y]  = 'C';
+			
+		}
+
+		else if(move == 'a')
+		{
+			dot_placement_map[x][y]  = ' ';
 			y--;
+			dot_placement_map[x][y]  = 'C';
+			
 		}
-		if(move == 'd')
+
+		else if(move == 'd')
 		{
+			dot_placement_map[x][y]  = ' ';
 			y++;
+			dot_placement_map[x][y]  = 'C';
+			
 		}
-		if(move == 'q'){
+
+		else if(move == 'q')
+		{
 			break;
 		}
 
-		mvaddch(x, y, 'C');
-		refresh();
+		clear();
+
+		for(int i = 0 ; i < len; i++)
+		{
+			mvaddch(i, 0, ' ');
+			printw(dot_placement_map[i]);
+		}
+
+
+
+
 
 	}
 
@@ -53,7 +145,7 @@ int main(void){
 
 
 
-	getch();			/* Wait for user input */
+	
 	//t1.join();
 	endwin();			/* End curses mode		  */
 	return 0;
