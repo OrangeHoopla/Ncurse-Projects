@@ -59,16 +59,16 @@ char dot_placement_map[50][50] = {
 int main(void){	
 	initscr();			/* Start curses mode 		  */
 	curs_set(0); // invisiable cursor
-	//printw("Hello World !!!");	/* Print Hello World		  */
+	nodelay(stdscr, TRUE);  // it doesnt wait for input
 	refresh(); //forces update
 
 
 	//std::thread t1(count,3);
-	//sleep(2);
+	
 	//printw("you sicko");
 	refresh();			/* Print it on to the real screen */
 
-	int x,y;
+	int x,y,xi,yi;
 	x = 1;
 	y = 2;
 	
@@ -82,44 +82,43 @@ int main(void){
 		printw(dot_placement_map[i]);
 	}
 
+	xi = 1;
+	yi = 2;
 
 
-	char move;
+
+	char move = 'd';
+	char state;
+	std::string possible_moves = "wasdq";
 	while(1)
 	{
-		move = getch();
+		state = getch();
+		if (possible_moves.find(state) != std::string::npos)
+		{
+			move = state;
+		}
+
+
+
 
 		if(move == 'w')
 		{
-			dot_placement_map[x][y]  = ' ';
-			x--;
-			dot_placement_map[x][y]  = 'C';
-			
-			
+			xi--;	
 		}
 
 		else if(move == 's')
-		{
-			dot_placement_map[x][y]  = ' ';
-			x++;
-			dot_placement_map[x][y]  = 'C';
-			
+		{	
+			xi++;	
 		}
 
 		else if(move == 'a')
 		{
-			dot_placement_map[x][y]  = ' ';
-			y--;
-			dot_placement_map[x][y]  = 'C';
-			
+			yi--;	
 		}
 
 		else if(move == 'd')
 		{
-			dot_placement_map[x][y]  = ' ';
-			y++;
-			dot_placement_map[x][y]  = 'C';
-			
+			yi++;	
 		}
 
 		else if(move == 'q')
@@ -127,8 +126,26 @@ int main(void){
 			break;
 		}
 
-		clear();
+		if(dot_placement_map[xi][yi] == ' ' || dot_placement_map[xi][yi] == '.' || dot_placement_map[xi][yi] == '*')
+		{
 
+			dot_placement_map[x][y]  = ' ';
+			x = xi;
+			y = yi;
+			dot_placement_map[x][y]  = 'C';
+
+			
+
+		}
+		xi = x;
+		yi = y;
+
+		usleep(500000); // time between moves
+
+
+
+		//updating screen
+		clear();
 		for(int i = 0 ; i < len; i++)
 		{
 			mvaddch(i, 0, ' ');
