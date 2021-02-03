@@ -90,6 +90,9 @@ int main(void){
 	char move = 'd';
 	char state;
 	std::string possible_moves = "wasdq";
+	int score = 0;
+
+	//user loop
 	while(1)
 	{
 		state = getch();
@@ -126,13 +129,18 @@ int main(void){
 			break;
 		}
 
+		//checking next spot and updating map
 		if(dot_placement_map[xi][yi] == ' ' || dot_placement_map[xi][yi] == '.' || dot_placement_map[xi][yi] == '*')
 		{
-
+			if(dot_placement_map[xi][yi] == '.' || dot_placement_map[xi][yi] == '*')
+			{
+				score++;
+			}
 			dot_placement_map[x][y]  = ' ';
 			x = xi;
 			y = yi;
 			dot_placement_map[x][y]  = 'C';
+			
 
 			
 
@@ -140,7 +148,7 @@ int main(void){
 		xi = x;
 		yi = y;
 
-		usleep(500000); // time between moves
+		usleep(300000); // time between moves
 
 
 
@@ -152,11 +160,14 @@ int main(void){
 			printw(dot_placement_map[i]);
 		}
 
+		std::string demo = "Score: " + std::to_string(score);
+		printw(demo.data());
 
 
 
 
-	}
+
+	} // end of user loop
 
 
 
